@@ -43,7 +43,7 @@ namespace SampleMVC.Api
 
             if (userdto == null)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, $"User with {id} not found");
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, $"User with id {id} not found");
             }
             return Request.CreateResponse(HttpStatusCode.OK, userdto);
         }
