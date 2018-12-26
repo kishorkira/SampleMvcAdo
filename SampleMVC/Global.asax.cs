@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AutoMapper;
+using SampleMVC.Dto;
+using SampleMVC.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,6 +21,9 @@ namespace SampleMVC
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<User, UserDto>().ReverseMap();
+            });
         }
     }
 }

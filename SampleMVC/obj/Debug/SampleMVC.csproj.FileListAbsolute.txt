@@ -57,3 +57,8 @@ E:\kishorkira\MVC\SampleMVC\SampleMVC\bin\System.Web.Http.WebHost.dll
 E:\kishorkira\MVC\SampleMVC\SampleMVC\bin\System.Net.Http.Formatting.xml
 E:\kishorkira\MVC\SampleMVC\SampleMVC\bin\System.Web.Http.xml
 E:\kishorkira\MVC\SampleMVC\SampleMVC\bin\System.Web.Http.WebHost.xml
+E:\kishorkira\MVC\SampleMVC\SampleMVC\bin\AutoMapper.dll
+E:\kishorkira\MVC\SampleMVC\SampleMVC\bin\System.ValueTuple.dll
+E:\kishorkira\MVC\SampleMVC\SampleMVC\bin\AutoMapper.pdb
+E:\kishorkira\MVC\SampleMVC\SampleMVC\bin\AutoMapper.xml
+E:\kishorkira\MVC\SampleMVC\SampleMVC\bin\System.ValueTuple.xml

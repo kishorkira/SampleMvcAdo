@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SampleMVC.Repository;
+using AutoMapper;
+using SampleMVC.Dto;
 
 namespace SampleMVC.Controllers
 {
@@ -35,7 +37,8 @@ namespace SampleMVC.Controllers
         {
             var path = Server.MapPath("");
             var users = _repository.Get();
-            return View(users);
+            var usersdto = Mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(users);
+            return View(usersdto);
         }
 
         [HttpGet]
@@ -49,24 +52,26 @@ namespace SampleMVC.Controllers
 
 
         [HttpPost]
-        public ActionResult Create(User user)
+        public ActionResult Create(UserDto userdto)
         {
             if (ModelState.IsValid)
             {
+                var user = Mapper.Map<UserDto, User>(userdto);
                 var result = _repository.Add(user);
                 return RedirectToAction("List");
             }
             ViewBag.CompanyId = new SelectList(_companies, "Id", "Name");
             ViewBag.MasterId = new SelectList(_masters, "Id", "Name");
 
-            return View(user);
+            return View(userdto);
         }
         [HttpGet]
         public ActionResult Details(int id)
         {
             ViewBag.Id = id;
             var user = _repository.Get(id);
-            return View(user);
+            var userdto = Mapper.Map<User, UserDto>(user);
+            return View(userdto);
         }
         [HttpGet]
         public ActionResult Edit(int id)
@@ -77,21 +82,21 @@ namespace SampleMVC.Controllers
             ViewBag.MasterId = new SelectList(_masters, "Id", "Name");
 
             var user = _repository.Get(id);
-            return View(user);
+            var userdto = Mapper.Map<User, UserDto>(user);
+            return View(userdto);
         }
         [HttpPost]
-        public ActionResult Edit(User user)
+        public ActionResult Edit(UserDto userdto)
         {
             if (ModelState.IsValid)
             {
+                var user = Mapper.Map<UserDto, User>(userdto);
                 var result = _repository.Update(user);
                 return RedirectToAction("List");
             }
             ViewBag.CompanyId = new SelectList(_companies, "Id", "Name");
             ViewBag.MasterId = new SelectList(_masters, "Id", "Name");
-
-
-            return View(user);
+            return View(userdto);
         }
 
         [HttpGet]
@@ -100,7 +105,8 @@ namespace SampleMVC.Controllers
         {
             ViewBag.Id = id;
             var user = _repository.Get(id);
-            return View(user);
+            var userdto = Mapper.Map<User, UserDto>(user);
+            return View(userdto);
         }
 
         [HttpPost]
