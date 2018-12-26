@@ -1,0 +1,16 @@
+﻿using SampleMVC.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SampleMVC.Repository
+{
+    interface IUserRepository : IRepository<User>
+    {
+
+        int UsersCountByName(string username);     
+
+    }
+}

@@ -1,0 +1,176 @@
+﻿@model SampleMVC.Models.User
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@section styles{
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+
+}
+
+<h2>Edit</h2>
+@if (Model != null)
+{
+    using (Html.BeginForm("Edit", "user", FormMethod.Post, new { autocomplete = "off", name = "user-form", id = "user-form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>User</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="col-sm-6  form-group">
+                @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "true", placeholder = "name@Domain.com" } })
+                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    <span id="status"></span>
+                </div>
+            </div>
+
+            <div class="col-sm-6  form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color: #fff;">
+                            <i id="password-icon" onclick="passwordIconClick(event);" class="fas fa-eye-slash"></i>
+                        </span>
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password", style = "max-width:240px; border-left: 0px;", placeholder = "atleast 6 chars" } })
+
+
+                    </div><!-- /input-group -->
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+
+                </div>
+            </div>
+
+            <div class="col-sm-6  form-group">
+                @Html.LabelFor(model => model.CompanyId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @* @Html.EditorFor(model => model.CompanyId, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.DropDownList("CompanyId", ViewBag.Companies as SelectList, "select company", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6  form-group">
+                @Html.LabelFor(model => model.AccountId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AccountId, new { htmlAttributes = new { @class = "form-control", placeholder = "enter your account id" } })
+                    @Html.ValidationMessageFor(model => model.AccountId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6  form-group">
+                @Html.LabelFor(model => model.LicenseKey, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LicenseKey, new { htmlAttributes = new { @class = "form-control", maxlength = 12, placeholder = "enter 12 char unique license key" } })
+                    @Html.ValidationMessageFor(model => model.LicenseKey, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6  form-group">
+                @Html.LabelFor(model => model.MasterId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @* @Html.EditorFor(model => model.MasterId, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.DropDownList("MasterId", ViewBag.Companies as SelectList, "select master", new { @class = "form-control" })
+
+
+                    @Html.ValidationMessageFor(model => model.MasterId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6  form-group">
+                @Html.LabelFor(model => model.Address1, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @* @Html.EditorFor(model => model.Address1, new { htmlAttributes = new { @class = "form-control",placeholder="Enter your Address 1",maxlength =255} })*@
+
+                    @Html.TextAreaFor(model => model.Address1, new { @class = "form-control", placeholder = "Enter your Address 1", maxlength = 255 })
+                    @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6  form-group">
+                @Html.LabelFor(model => model.Address2, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Address2, new { @class = "form-control", placeholder = "Enter your Address 2", maxlength = 255 })
+                    @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6  form-group">
+                @Html.LabelFor(model => model.CityCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CityCode, new { htmlAttributes = new { @class = "form-control", placeholder = "City Code", maxlength = 3, minlength = 2 } })
+                    @Html.ValidationMessageFor(model => model.CityCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6  form-group">
+                @Html.LabelFor(model => model.RegionCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RegionCode, new { htmlAttributes = new { @class = "form-control", placeholder = "Region Code", maxlength = 4, minlength = 2 } })
+                    @Html.ValidationMessageFor(model => model.RegionCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6  form-group">
+                @Html.LabelFor(model => model.CountryCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CountryCode, new { htmlAttributes = new { @class = "form-control", placeholder = "Country Code", maxlength = 4, minlength = 2 } })
+                    @Html.ValidationMessageFor(model => model.CountryCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-6  form-group">
+                @Html.LabelFor(model => model.PostalCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control", placeholder = "Postal Code", maxlength = 6, minlength = 4 } })
+                    @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" id="save" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <h2>User with id @ViewBag.Id doesn't exist</h2>
+
+}
+
+
+
+
+<div class="row">
+    @Html.ActionLink("Back to List", "List")
+</div>
+@section scripts{
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+
+    <script src="~/Scripts/Custom/UserForm.js"></script>
+
+    @if (Model != null)
+    {
+        <script>
+            document.getElementById("CompanyId")[0].disabled = true;
+            document.getElementById("CompanyId").value = "@Model.CompanyId";
+
+            document.getElementById("MasterId")[0].disabled = true;
+            document.getElementById("MasterId").value = "@Model.MasterId";
+        </script>
+    }
+}
