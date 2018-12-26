@@ -35,7 +35,6 @@ namespace SampleMVC.Controllers
         [HttpGet]
         public ActionResult List()
         {
-            var path = Server.MapPath("");
             var users = _repository.Get();
             var usersdto = Mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(users);
             return View(usersdto);

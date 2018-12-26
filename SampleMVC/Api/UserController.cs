@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Web.Http;
 using SampleMVC.Repository;
 using SampleMVC.Models;
+using AutoMapper;
+using SampleMVC.Dto;
 
 namespace SampleMVC.Api
 {
@@ -23,11 +25,13 @@ namespace SampleMVC.Api
         public HttpResponseMessage Get()
         {
             var users = _repository.Get();
-            if (users == null)
+            var usersdto = Mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(users);
+
+            if (usersdto == null)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, $"Users with not found");
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, $"Users not found");
             }
-            return Request.CreateResponse(HttpStatusCode.OK, users);
+            return Request.CreateResponse(HttpStatusCode.OK, usersdto);
         }
 
         [HttpGet]
@@ -35,11 +39,13 @@ namespace SampleMVC.Api
         public HttpResponseMessage Get(int id)
         {
             var user = _repository.Get(id);
-            if (user == null)
+            var userdto = Mapper.Map<User, UserDto>(user);
+
+            if (userdto == null)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, $"User with {id} not found");
             }
-            return Request.CreateResponse(HttpStatusCode.OK, user);
+            return Request.CreateResponse(HttpStatusCode.OK, userdto);
         }
 
         [HttpGet]
@@ -51,15 +57,18 @@ namespace SampleMVC.Api
 
         [HttpPost]
         [Route("api/user")]
-        public HttpResponseMessage PostUser(User user)
+        public HttpResponseMessage PostUser(UserDto userdto)
         {
+            var user = Mapper.Map<UserDto, User>(userdto);
+
             if (!ModelState.IsValid)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
             if (_repository.Add(user))
             {
-                return Request.CreateResponse(HttpStatusCode.Created, user);
+                userdto = Mapper.Map<User, UserDto>(user);
+                return Request.CreateResponse(HttpStatusCode.Created, userdto);
             }
             return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Please try later");
         }
@@ -84,8 +93,9 @@ namespace SampleMVC.Api
 
         [HttpPut]
         [Route("api/user/{id:int}")]
-        public HttpResponseMessage Put(int id, User user)
+        public HttpResponseMessage Put(int id, UserDto userdto)
         {
+
             if (!ModelState.IsValid)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
@@ -94,11 +104,11 @@ namespace SampleMVC.Api
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, $"User with {id} not found");
             }
-
+            var user = Mapper.Map<UserDto, User>(userdto);
             if (_repository.Update(user))
             {
-                return Request.CreateResponse(HttpStatusCode.OK, user);
-
+                userdto = Mapper.Map<User, UserDto>(user);
+                return Request.CreateResponse(HttpStatusCode.OK, userdto);
             }
             return Request.CreateErrorResponse(HttpStatusCode.NotModified, $"User with {id} not Modified");
         }
