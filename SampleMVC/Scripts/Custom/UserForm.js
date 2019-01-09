@@ -139,31 +139,35 @@ emailInput.addEventListener('focus', function (e) {
 
 });
 emailInput.addEventListener('blur', function (e) {
+    if (e.target.value) {
+        axios.get('http://localhost:51254/api/user/GetCount',
+             {
+                 params: {
+                     username: e.target.value
+                 }
+             })
+            .then(function (response) {
+                if (response.data > 0) {
+                    status.innerHTML = "User exist with this email";
+                    status.style.color = "red";
+                    savebtn.disabled = true;
 
-    axios.get('http://localhost:51254/api/user/GetCount',
-         {
-             params: {
-                 username: e.target.value
-             }
-         })
-        .then(function (response) {
-            if (response.data > 0) {
-                status.innerHTML = "User exist with this email";
+                } else if (response.data === 0) {
+                    status.innerHTML = "";
+                    savebtn.disabled = false;
+
+                } else {
+                    status.innerHTML = "....please try later";
+                    status.style.color = "red";
+                    savebtn.disabled = false;
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+                status.innerHTML = "....please try later";
                 status.style.color = "red";
-                savebtn.disabled = true;
-
-            } else if (response.data === 0) {
-                status.innerHTML = "";
                 savebtn.disabled = false;
-
-            } else {
-                status.innerHTML = "Server busy please try later";
-                savebtn.disabled = false;
-            }
-
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-
+            });
+    }
 });
